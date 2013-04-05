@@ -33,9 +33,9 @@ field.ready(fn);
 
 Initialize the devices with the given `url`. This is the url that gets passed into `matthewmueller/io` and ultimately into `learnboost/engine.io`.
 
-### `Device(name)`
+### `device(name)`
 
-Initialize a `Device` with a given `name`. This name should uniquely identify the device from the rest of the devices in the room.
+Initialize a `device` with a given `name`. This name should uniquely identify the device from the rest of the devices in the room.
 
 ### `.type(mobile|desktop|tablet)`
 
