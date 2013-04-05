@@ -1,7 +1,7 @@
 
 # device
 
-  Higher-level API built on [matthewmueller/io](http://github.com/matthewmueller/io) built for separating out socket logic and sending messages between clients.
+  Higher-level API built on [matthewmueller/io](http://github.com/matthewmueller/io) for separating out socket logic and sending messages between clients.
 
 ## Installation
 
