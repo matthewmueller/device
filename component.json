@@ -5,11 +5,10 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "component/user-agent-parser" : "*",
+    "matthewmueller/user-agent-parser" : "*",
     "matthewmueller/uid" : "*",
     "matthewmueller/io" : "*",
-    "component/querystring" : "*",
-    "component/emitter" : "*"
+    "component/querystring" : "*"
   },
   "development": {},
   "license": "MIT",
