@@ -1,0 +1,19 @@
+{
+  "name": "device",
+  "repo": "matthewmueller/device",
+  "description": "high-level device io",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/user-agent-parser" : "*",
+    "matthewmueller/uid" : "*",
+    "matthewmueller/io" : "*",
+    "component/querystring" : "*",
+    "component/emitter" : "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "index.js"
+  ]
+}

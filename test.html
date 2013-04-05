@@ -1,0 +1,37 @@
+<html>
+<head>
+  <title>device component</title>
+</head>
+<body>
+  <h1>device component</h1>
+  <script src="../build/build.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var device = require('device')('192.168.2.103:9000/lol');
+
+    var pitcher = device('pitcher', 'mobile');
+
+    pitcher.ready(function() {
+      pitcher.send('macbook pro', 'lol', 'wahoo!');
+
+      pitcher.on('lol', function(msg) {
+        alert(msg)
+      })
+    });
+
+    var computer = device('macbook pro', 'desktop');
+
+    computer.ready(function() {
+      console.log('computer connected');
+      computer.on('lol', function(msg) {
+        console.log('got message!', msg);
+      });
+    });
+
+    var batter = device('batter', 'tablet');
+    batter.ready(function() {
+      batter.emit('lol', 'oh herro!')
+    });
+
+  </script>
+</body>
+</html>
