@@ -57,15 +57,10 @@ function Device(name, type, opts) {
   if(!(this instanceof Device)) return new Device(name, type, opts);
   opts = opts || {};
   this.name = name;
-  this.master = !hash;
-  this.readied = false;
   this.type = type;
-  this.pathname = window.location.pathname;
+  this.readied = false;
   this.url = this._url();
   this.fns = [];
-
-  // add to all devices
-  // devices.push({ type : type, name : name });
 }
 
 /**
