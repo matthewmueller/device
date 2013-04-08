@@ -17,7 +17,7 @@ var pitcher = device('pitcher').type('mobile');
 var field = device('field').type('desktop');
 
 batter.ready(function() {
-  batter.send('field', 'homerun');
+  batter.on('throw', hitHomerun);
 });
 
 pitcher.ready(function() {
@@ -33,17 +33,20 @@ field.ready(fn);
 
 Initialize the devices with the given `url`. This is the url that gets passed into `matthewmueller/io` and ultimately into `learnboost/engine.io`.
 
-### `device(name)`
+### `device(name, type)`
 
-Initialize a `device` with a given `name`. This name should uniquely identify the device from the rest of the devices in the room.
-
-### `.type(mobile|desktop|tablet)`
-
-Target a specific device. Maybe you want the desktop to be the view for input from your phone.
+Initialize a `device` with a given `name`. This name should uniquely identify the device from the rest of the devices in the room. `type` can be "mobile", "desktop", or "tablet";
 
 ### `.ready(fn)`
 
 Initializes the socket and calls `fn` when done. This library uses socket pooling in order for each connected client to call at most one `ready` function.
+
+Ready can be called multiple times with multiple functions `fn`.
+
+```js
+iphone.ready(doThis);
+iphone.ready(doThat);
+```
 
 ## Socket Server
 
