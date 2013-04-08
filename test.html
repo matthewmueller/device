@@ -7,9 +7,9 @@
   <script src="../build/build.js" type="text/javascript"></script>
 
   <script type="text/javascript">
-    var device = require('device')('192.168.2.103:9000/lol');
+    var device = require('device')('http://ws.mat.io:80/lol');
 
-    var pitcher = device('pitcher').type('mobile');
+    var pitcher = device('pitcher', 'mobile');
 
     pitcher.ready(function() {
       this.emit('hello', 'pitcher ready!');
@@ -20,14 +20,18 @@
       // })
     });
 
-    var mac = device('macbook pro').type('desktop');
+    var mac = device('macbook pro', 'desktop');
 
     mac.ready(function() {
       console.log('mac connected');
       mac.send('batter', 'hello');
     });
 
-    var batter = device('batter').type('desktop');
+    mac.ready(function() {
+      console.log('cool');
+    });
+
+    var batter = device('batter', 'desktop');
     batter.ready(function() {
       console.log('batter connected');
       batter.on('hello', function() {

@@ -53,31 +53,20 @@ module.exports = function(url) {
  * @api public
  */
 
-function Device(name, opts) {
-  if(!(this instanceof Device)) return new Device(name, opts);
+function Device(name, type, opts) {
+  if(!(this instanceof Device)) return new Device(name, type, opts);
   opts = opts || {};
   this.name = name;
   this.master = !hash;
-  this._uid = this.uid();
+  this.readied = false;
+  this.type = type;
   this.pathname = window.location.pathname;
   this.url = this._url();
+  this.fns = [];
 
   // add to all devices
   // devices.push({ type : type, name : name });
 }
-
-/**
- * Give a device type
- *
- * @param {String} type
- * @return {Device}
- * @api public
- */
-
-Device.prototype.type = function(type) {
-  this._type = type;
-  return this;
-};
 
 /**
  * Get the device's user agent
@@ -90,18 +79,6 @@ Device.prototype._ua = function() {
   ua = parse(window.navigator.userAgent);
   return ua.device.type || 'desktop';
 }
-
-/**
- * Parse the url hash to provide a unique id
- *
- * @return {String} uid
- * @api private
- */
-
-Device.prototype.uid = function() {
-  var hash = window.location.hash;
-  return (hash) ? hash.slice(1) : uid(4);
-};
 
 /**
  * Create the url
@@ -127,16 +104,21 @@ Device.prototype._url = function() {
  */
 
 Device.prototype.ready = function(fn) {
+  this.fns.push(fn);
+
+  // If called already, just return
+  if(this.readied) return;
+
   // if the user agent doesnt match the type or we're already connected
   // don't go any further
-  if(this._type && this._type != this._ua() || connected) return this;
+  if(this.type && this.type != this._ua() || connected) return this;
 
-  this.fn = fn;
   devices.push(this);
 
   // try to open socket connection
   this.open();
 
+  this.readied = true;
   return this;
 };
 
@@ -168,7 +150,10 @@ Device.prototype.open = function() {
       for(var key in io) device[key] = io[key];
       opening = false;
       connected = true;
-      device.fn.call(device);
+
+      for (var i = 0, len = device.fns.length; i < len; i++) {
+        device.fns[i].call(device);
+      }
     });
 
     // identity not acknowledged, try another
