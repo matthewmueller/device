@@ -27,12 +27,6 @@ var opening = false;
 var connected = false;
 
 /**
- * Window hash
- */
-
-var hash = window.location.hash;
-
-/**
  * Expose `Device`
  */
 
