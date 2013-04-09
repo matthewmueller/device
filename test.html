@@ -7,7 +7,7 @@
   <script src="../build/build.js" type="text/javascript"></script>
 
   <script type="text/javascript">
-    var device = require('device')('http://ws.mat.io:80/lol');
+    var device = require('device')('http://ws.mat.io:80/device-test');
 
     var pitcher = device('pitcher', 'mobile');
 
@@ -24,18 +24,19 @@
 
     mac.ready(function() {
       console.log('mac connected');
-      mac.send('batter', 'hello');
+      mac.send(batter, 'hello', 'pitch');
     });
 
-    mac.ready(function() {
-      console.log('cool');
-    });
+
+    // mac.ready(function() {
+    //   console.log('cool');
+    // });
 
     var batter = device('batter', 'desktop');
     batter.ready(function() {
       console.log('batter connected');
-      batter.on('hello', function() {
-        console.log('lol');
+      batter.on('hello', function(msg) {
+        console.log('batter recieved', msg);
       })
     });
 

@@ -8,7 +8,8 @@
     "matthewmueller/user-agent-parser" : "*",
     "matthewmueller/uid" : "*",
     "matthewmueller/io" : "*",
-    "component/querystring" : "*"
+    "component/querystring" : "*",
+    "component/bind" : "*"
   },
   "development": {},
   "license": "MIT",

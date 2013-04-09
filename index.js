@@ -5,6 +5,7 @@
 var parse = require('user-agent-parser'),
     IO = require('io'),
     uid = require('uid'),
+    bind = require('bind'),
     qs = require('querystring');
 
 /**
@@ -61,6 +62,7 @@ function Device(name, type, opts) {
   this.readied = false;
   this.url = this._url();
   this.fns = [];
+  this.io = new IO();
 }
 
 /**
@@ -133,19 +135,16 @@ Device.prototype.open = function() {
   opening = true;
   var self = this;
   var device = devices.shift();
-
   if(!device) return this;
-  var io = IO(device.url);
+  var io = device.io;
+  io.connect(device.url);
 
   io.socket.on('open', function() {
 
     // identity acknowledged by socket server
     io.on('ack', function() {
-      // mixin io
-      for(var key in io) device[key] = io[key];
       opening = false;
       connected = true;
-
       for (var i = 0, len = device.fns.length; i < len; i++) {
         device.fns[i].call(device);
       }
@@ -171,3 +170,31 @@ Device.prototype.open = function() {
   return this;
 };
 
+/**
+ * On event, simply proxy to io.on(...), binding functions that come through
+ * to device
+ */
+
+Device.prototype.on = function(event) {
+  var m = [].slice.call(arguments, 1);
+
+  for (var i = 0, len = m.length; i < len; i++) {
+    m[i] = ('function' == typeof m[i]) ? bind(this, m[i]) : m[i];
+  };
+
+  this.io.on.apply(this.io, [event].concat(m));
+};
+
+/**
+ * Proxy send and emit through to io
+ */
+
+Device.prototype.send = function() {
+  var args = [].slice.call(arguments);
+  args[0] = (args[0] && args[0] instanceof Device) ? args[0].name : args[0];
+  return this.io.send.apply(this.io, args);
+};
+
+Device.prototype.emit = function() {
+  return this.io.emit.apply(this.io, arguments);
+};
