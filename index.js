@@ -140,7 +140,7 @@ Device.prototype.open = function() {
       opening = false;
       connected = true;
       for (var i = 0, len = device.fns.length; i < len; i++) {
-        device.fns[i].call(device);
+        device.fns[i].call(device, device);
       }
     });
 
